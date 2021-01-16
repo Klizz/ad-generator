@@ -40,8 +40,8 @@ router.post('/new', (req, res) => {
       visible: true,
     })
     await page.setViewport({
-      width: 1920,
-      height: 1080
+      width: 1280,
+      height: 800
     })
 
     await page.waitForSelector('#primaryNav');
@@ -115,17 +115,20 @@ router.post('/new', (req, res) => {
 
     // SELECCIONAR RECORRIDO
     await page.type("#input_recorrido", "20000")
+    await delay(1000);
 
-    // ESCRIBIR TELÉFONO
-    // await page.waitForXPath("//input[starts-with(@id, 'input_tel')]")
-    // const tel = await page.$x("//input[starts-with(@id, 'input_tel')]")
-    // console.log(tel)
-    //tel[0].type("1234567890")
+    /*
+    ESCRIBIR TELÉFONO
+    await page.waitForXPath("//input[starts-with(@id, 'input_tel')]")
+    const tel = await page.$x("//input[starts-with(@id, 'input_tel')]")
+    console.log(tel)
+    tel[0].type("1234567890")
+    */
     
-    // SELECCIONAR PRECIO
+    // PASARLE EL PRECIO DEL USUARIO
     await page.type("#input_precio", req.body.price)
     
-    // CONTINUAR
+    // CONTINUAR A LA SIGUIENTE PÁGINA
     let button = await page.waitForSelector('button[class="next-button"]')
     button.click()
     await delay(5000);
@@ -147,8 +150,8 @@ router.post('/new', (req, res) => {
     await page.waitForSelector('#cancelButton')
 
     // TERMINAR
-    // await delay(2000);
-    // await page.click('#cancelButton')
+    await delay(2000);
+    await page.click('#cancelButton')
 
     // TOMAR SCREENSHOT
     await delay(6000);
