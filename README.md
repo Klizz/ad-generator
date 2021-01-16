@@ -1,4 +1,4 @@
-# Cómo correr esta aplicación localmente
+## Cómo correr esta aplicación localmente
 
 * Usar el comando `cd ad-generator-server` para entrar a la carpeta del servidor.
 * Iniciar la aplicación con el comando `node server.js`
