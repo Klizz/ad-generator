@@ -41,13 +41,13 @@ router.post('/new', (req, res) => {
     })
     await page.setViewport({
       width: 1280,
-      height: 800
+      height: 1000
     })
 
     await page.waitForSelector('#primaryNav');
 
     // NAVEGAR A PUBLICAR NUEVO ANUNCIO
-    await page.goto('https://www.seminuevos.com/wizard?f_dealer_id=-1');
+    await page.goto('https://www.seminuevos.com/wizard?f_dealer_id=-1', {waitUntil: 'load', timeout: 0});
     await page.setViewport({
       width: 1920,
       height: 1080
@@ -112,11 +112,15 @@ router.post('/new', (req, res) => {
     await page.waitForXPath('//li[@data-content="monterrey"]//a')
     let selectCity = await page.$x('//li[@data-content="monterrey"]//a')
     selectCity[0].click()
-
+    
     // SELECCIONAR RECORRIDO
     await page.type("#input_recorrido", "20000")
-    await delay(1000);
+    await delay(6000);
 
+    // PASARLE EL PRECIO DEL USUARIO
+    await page.type("#input_precio", req.body.price)
+    await delay(6000);
+    
     /*
     ESCRIBIR TELÉFONO
     await page.waitForXPath("//input[starts-with(@id, 'input_tel')]")
@@ -125,18 +129,16 @@ router.post('/new', (req, res) => {
     tel[0].type("1234567890")
     */
     
-    // PASARLE EL PRECIO DEL USUARIO
-    await page.type("#input_precio", req.body.price)
-    
     // CONTINUAR A LA SIGUIENTE PÁGINA
     let button = await page.waitForSelector('button[class="next-button"]')
+    await delay(2000);
     button.click()
     await delay(5000);
     
     // AGREGAR DESCRIPCION
     await page.waitForSelector('#input_text_area_review');
-    await delay(1000);
     await page.type("#input_text_area_review", req.body.description)
+    await delay(1000);
     
     // SUBIR FOTO
     const elementHandle = await page.$("input[type=file]");
@@ -148,11 +150,11 @@ router.post('/new', (req, res) => {
     let button2 = await page.waitForSelector('button[class="next-button"]')
     button2.click()
     await page.waitForSelector('#cancelButton')
-
+    
     // TERMINAR
     await delay(2000);
     await page.click('#cancelButton')
-
+    
     // TOMAR SCREENSHOT
     await delay(6000);
     await page.screenshot({ path: 'images/example.png' });

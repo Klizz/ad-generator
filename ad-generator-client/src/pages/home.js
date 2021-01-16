@@ -108,7 +108,7 @@ const Home = () => {
                                 /><br /><br />
                                 {loading ?
                                     <div>
-                                        <p>Esto puede tardar unos instantes</p><br />
+                                        <p>Esto puede tardar unos minutos</p><br />
                                         <CircularProgress />
                                     </div>
                                     : null}
